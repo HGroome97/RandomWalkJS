@@ -6,6 +6,7 @@ var startY = 0;
 var frequency = 1;
 var xIncrement = 0.01;
 var yIncrement = 0.01;
+
 var cameraFocus = 0.75;
 
 var looper = 0;
@@ -27,10 +28,10 @@ function mapY(y) {
   return map(y, -1, 1, height, 0);
 }
 
-function mousePressed() {
-  x_vals.push(map(mouseX, 0, width, -1, 1));
-  y_vals.push(map(mouseY, 0, height, 1, -1));
-}
+// function mousePressed() {
+//   x_vals.push(map(mouseX, 0, width, -1, 1));
+//   y_vals.push(map(mouseY, 0, height, 1, -1));
+// }
 
 function drawPoints() {
   background(0);
