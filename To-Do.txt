@@ -1,4 +1,0 @@
-Splice array
-change colour
-
-model from normal distribution instead of uniform

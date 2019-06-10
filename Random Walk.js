@@ -3,18 +3,22 @@ let x_vals = [];
 var startX = -1;
 var startY = 0;
 
-var frequency = 1;
+var frequency = 1 ;//higher frequency = slower
 var xIncrement = 0.01;
-var yIncrement = 0.01;
+var yIncrement = 0.05;
 
-var cameraFocus = 0.75;
+var xCameraFocus = 0.75;
+var yCameraFocus = 0.75;
+
+var n = 2;
+var p = 1/n; //probability to rise
 
 var looper = 0;
 
 function setup() {
   createCanvas(window.innerHeight, window.innerHeight - 100);
   background(0);
-  x_vals.push(startX-0.01);
+  x_vals.push(startX - 0.01);
   y_vals.push(startY - 0.01);
   x_vals.push(startX);
   y_vals.push(startY);
@@ -40,35 +44,57 @@ function drawPoints() {
   for (let i = 1; i < x_vals.length; i++) {
     let x1 = mapX(x_vals[i]);
     let y1 = mapY(y_vals[i]);
-    let x2 = mapX(x_vals[i-1]);
-    let y2 = mapY(y_vals[i-1]);
-    line(x1,y1,x2,y2);
+    let x2 = mapX(x_vals[i - 1]);
+    let y2 = mapY(y_vals[i - 1]);
+    line(x1, y1, x2, y2);
   }
 }
 
 function uniformRandomVar() {
-  return Math.floor(random(2));
+  return Math.floor(random(n));
 }
 
-function shiftCamera(){
+function shiftXCamera() {
   for (let i = 0; i < x_vals.length; i++) {
     x_vals[i] -= xIncrement;
   }
 }
 
+function shiftYCameraUp() {
+  for (let i = 0; i < y_vals.length; i++) {
+    y_vals[i] -= yIncrement;
+  }
+}
+
+function shiftYCameraDown() {
+  for (let i = 0; i < y_vals.length; i++) {
+    y_vals[i] += yIncrement;
+  }
+}
+
+
+
 function draw() {
   looper++;
-  if (x_vals[x_vals["length"]-1] > cameraFocus) {
-    shiftCamera();
+  if (x_vals[x_vals["length"] - 1] > xCameraFocus) {
+    shiftXCamera();
   }
+  if (y_vals[y_vals["length"] - 1] > yCameraFocus) {
+    shiftYCameraUp();
+  }
+  if (y_vals[y_vals["length"] - 1] < -yCameraFocus) {
+    shiftYCameraDown();
+  }
+
+
   if (looper == frequency) {
     var randVar = uniformRandomVar();
-    if (randVar == 0) {
-      x_vals.push(x_vals[x_vals["length"]-1] + xIncrement);
-      y_vals.push(y_vals[y_vals["length"]-1] - yIncrement);
+    if (randVar >= n*p) {
+      x_vals.push(x_vals[x_vals["length"] - 1] + xIncrement);
+      y_vals.push(y_vals[y_vals["length"] - 1] - yIncrement);
     } else {
-      x_vals.push(x_vals[x_vals["length"]-1] + xIncrement);
-      y_vals.push(y_vals[y_vals["length"]-1] + yIncrement);
+      x_vals.push(x_vals[x_vals["length"] - 1] + xIncrement);
+      y_vals.push(y_vals[y_vals["length"] - 1] + yIncrement);
     }
     looper = 0;
   }
